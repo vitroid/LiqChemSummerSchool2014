@@ -23,54 +23,11 @@ def order_hist(graph):
         hist[i] += 1
     return tuple(hist)
 
-#(reducible) cycles
-def reducible_cycles(graph, maxc=6):
 
-    def self_avoiding_walk(graph,vertex_list):
-        #迷走して経路長が長くなりすぎた時は
-        if len(vertex_list) == maxc+1:
-            #あきらめる。(結果なし)
-            return []
-        last = vertex_list[-1]
-        results = []
-        #last頂点に隣接する頂点それぞれについて
-        for next in graph[last]:
-            #もしnextが経路の最初の頂点に戻ってきて、しかも経路長が3以上なら、
-            if next == vertex_list[0] and len(vertex_list) >= 3:
-                #帰ってきた!
-                #vertex_listを、結果に加える
-                results.append(vertex_list)
-            #自己回避経路(self-avoiding walk)になっているなら
-            elif not next in vertex_list:
-                #再帰的にwalkを延ばす
-                results += self_avoiding_walk(graph,vertex_list + [next,])
-        return results        
-                
-    cycles = []
-    graph_size = len(graph)
-    #すべての頂点を順番に始点として、
-    for v in range(graph_size):
-        #self-avoiding pathをさがす
-        cycles += self_avoiding_walk(graph, [v,])
-    #重複するサイクルを省く。(始点が違うだけ、逆回りなどすべて)
-    #重複のないリスト
-    uniquecycles = []
-    #重複のない集合
-    uniqueset = set()
-    for cycle in cycles:
-        #cycleに含まれる頂点を集合にする。
-        fs = frozenset(cycle)
-        #その集合が、既出でなければ
-        if not fs in uniqueset:
-            #集合の集合に追加する
-            uniqueset.add(fs)
-            #リストにも追加する
-            uniquecycles.append(cycle)
-    #リストのほうを返り値とする
-    return uniquecycles
+from cycles import unique_cycles
 
 def cycle_hist(graph,maxc=6):
-    cycles = reducible_cycles(graph,maxc)
+    cycles = unique_cycles(graph,maxc)
     cycle_size = [len(cycle) for cycle in cycles]
     hist = [0 for i in range(maxc+1)]
     for cs in cycle_size:
