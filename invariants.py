@@ -15,24 +15,25 @@ def number_of_edges(graph):
     return noe
 
 #histogram of vertex orders
-def order_hist(graph):
+def order_histogram(graph):
     orders = [len(neighbor_list) for neighbor_list in graph]
     maxo = max(orders)
-    hist = [0 for i in range(maxo+1)]
+    histogram = [0 for i in range(maxo+1)]
     for i in orders:
-        hist[i] += 1
-    return tuple(hist)
+        histogram[i] += 1
+    return tuple(histogram)
 
 
 from cycles import unique_cycles
 
-def cycle_hist(graph,maxc=6):
+#histogram of cycle size
+def cycle_histogram(graph,maxc=6):
     cycles = unique_cycles(graph,maxc)
     cycle_size = [len(cycle) for cycle in cycles]
-    hist = [0 for i in range(maxc+1)]
+    histogram = [0 for i in range(maxc+1)]
     for cs in cycle_size:
-        hist[cs] += 1
-    return tuple(hist)
+        histogram[cs] += 1
+    return tuple(histogram)
 
     
 ############# end of functions ########################################
@@ -52,12 +53,12 @@ if __name__ == "__main__":
     size = 8
 
     #連結な頂点から頂点へたどっていきやすいように、隣接関係をリストで表現する。
-    graph   = adjacency_table(edges,   size)
+    graph   = adjacency_table(edges, size)
     #頂点の個数
     print number_of_vertices(graph)
     #辺の本数
     print number_of_edges(graph)
     #次数のヒストグラム
-    print order_hist(graph)
+    print order_histogram(graph)
     #cycleのヒストグラム
-    print cycle_hist(graph,6)
+    print cycle_histogram(graph,6)

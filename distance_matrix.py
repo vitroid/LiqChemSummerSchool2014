@@ -43,7 +43,10 @@ def adjacency_table(edges,size):
         i,j = edge
         graph[i].append(j)
         graph[j].append(i)
-    return graph
+    #すべてタプルにする。(あとで使いやすいように)
+    for i in range(size):
+        graph[i] = tuple(graph[i])
+    return tuple(graph)
 
 
 #隣接関係をつかって距離行列を生成する

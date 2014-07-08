@@ -5,9 +5,9 @@
 
 ############# functions ###############################################
 #cycles
-def unique_cycles(graph, maxc=6):
-
-    def self_avoiding_walk(graph,vertex_list):
+def all_cycles(graph, maxc=6):
+    #local functions
+    def self_avoiding_cycle(graph,vertex_list):
         #迷走して経路長が長くなりすぎた時は
         if len(vertex_list) == maxc+1:
             #あきらめる。(結果なし)
@@ -21,19 +21,27 @@ def unique_cycles(graph, maxc=6):
                 #帰ってきた!
                 #vertex_listを、結果に加える
                 results.append(vertex_list)
-            #自己回避経路(self-avoiding walk)になっているなら
-            elif not next in vertex_list:
-                #再帰的にwalkを延ばす
-                results += self_avoiding_walk(graph,vertex_list + [next,])
+            #経路の途中に交わってしまったら
+            elif next in vertex_list:
+                continue
+            #再帰的にwalkを延ばす
+            results += self_avoiding_cycle(graph,vertex_list + [next,])
         return results        
-                
+    #end of local functions            
+
     cycles = []
     graph_size = len(graph)
     #すべての頂点を順番に始点として、
     for v in range(graph_size):
         #self-avoiding pathをさがす
-        cycles += self_avoiding_walk(graph, [v,])
-    #重複するサイクルを省く。(始点が違うだけ、逆回りなどすべて)
+        cycles += self_avoiding_cycle(graph, [v,])
+    #重複(始点が違うだけ、逆回りなどすべて)を含むすべてのサイクルを返す。
+    return cycles
+
+
+def unique_cycles(graph, maxc=6):
+    cycles = all_cycles(graph, maxc)
+    #重複するサイクルを省く。
     #重複のないリスト
     uniquecycles = []
     #重複のない集合
