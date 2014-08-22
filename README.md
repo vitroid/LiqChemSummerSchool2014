@@ -7,3 +7,6 @@ Sample programs for Liquid Chemistry Summer School 2014
 
 * Mac/iPadを利用している人は、text.ibooksをダウンロードして下さい。
 * それ以外のデバイスを利用している人は、text.pdfをダウンロードして下さい。
+
+一切合切ダウンロードしたい場合は右の"Dounload ZIP"を押して下さい。
+
