@@ -17,15 +17,19 @@ def all_cycles(graph, maxc=6):
         #last頂点に隣接する頂点それぞれについて
         for next in graph[last]:
             #もしnextが経路の最初の頂点に戻ってきて、しかも経路長が3以上なら、
-            if next == vertex_list[0] and len(vertex_list) >= 3:
-                #帰ってきた!
-                #vertex_listを、結果に加える
-                results.append(vertex_list)
+            if next == vertex_list[0]:
+                if len(vertex_list) >= 3:
+                    #帰ってきた!
+                    #vertex_listを、結果に加える
+                    results.append(vertex_list)
+                else:
+                    continue
             #経路の途中に交わってしまったら
             elif next in vertex_list:
                 continue
-            #再帰的にwalkを延ばす
-            results += self_avoiding_cycle(graph,vertex_list + [next,])
+            else:
+                #再帰的にwalkを延ばす
+                results += self_avoiding_cycle(graph,vertex_list + [next,])
         return results        
     #end of local functions            
 
